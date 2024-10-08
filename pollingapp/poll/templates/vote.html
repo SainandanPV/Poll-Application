@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vote on Poll</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background-color: #b22222; /* Dark Red */
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+      .container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        font-size: 2em;
+        margin: 0 0 20px;
+      }
+      .option {
+        margin: 10px 0;
+      }
+      .btn {
+        display: inline-block;
+        background-color: #e63946; /* Bright Red */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 1.2em;
+        transition: background-color 0.3s;
+        margin-top: 20px;
+      }
+      .btn:hover {
+        background-color: #d62839; /* Slightly Darker Red */
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Vote for Your Favorite Option</h1>
+    </header>
+
+    <div class="container">
+      <h2>{{ poll.question }}</h2>
+      <form method="POST" action="{% url 'polls:vote' poll.id %}">
+        {% csrf_token %} {% for option in poll.options.all %}
+        <div class="option">
+          <input
+            type="radio"
+            id="option{{ option.id }}"
+            name="option"
+            value="{{ option.id }}"
+            required
+          />
+          <label for="option{{ option.id }}">{{ option.text }}</label>
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn">Submit Vote</button>
+      </form>
+    </div>
+  </body>
+</html>

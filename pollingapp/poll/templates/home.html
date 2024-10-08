@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Poll Application</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background-color: #b22222; /* Dark Red */
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+      .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        font-size: 2.5em;
+        margin: 0;
+      }
+      h2 {
+        font-size: 2em;
+        margin-top: 20px;
+      }
+      p {
+        font-size: 1.2em;
+        margin: 10px 0;
+      }
+      .poll-item {
+        border-bottom: 1px solid #ccc;
+        padding: 15px 0;
+      }
+      .btn {
+        display: inline-block;
+        background-color: #e63946; /* Bright Red */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 1.2em;
+        transition: background-color 0.3s;
+      }
+      .btn:hover {
+        background-color: #d62839; /* Slightly Darker Red */
+      }
+      footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 0.9em;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Welcome to the Poll Application</h1>
+      <p>Your opinion matters!</p>
+    </header>
+
+    <div class="container">
+      <h2>Participate in Our Polls</h2>
+      <p>Join the community and share your thoughts.</p>
+
+      {% for poll in polls %}
+      <div class="poll-item">
+        <h3>{{ poll.question }}</h3>
+        <a href="{% url 'polls:vote' poll.id %}" class="btn">Vote</a>
+        <a
+          href="{% url 'polls:delete' poll.id %}"
+          onclick="return confirm('Are you sure?');"
+          class="btn"
+          >Delete</a
+        >
+      </div>
+      {% empty %}
+      <p>No polls available at the moment.</p>
+      {% endfor %}
+
+      <a href="{% url 'polls:create' %}" class="btn" style="margin-top: 20px"
+        >Create a Poll</a
+      >
+    </div>
+
+    <footer>
+      <p>&copy; 2024 Poll Application. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

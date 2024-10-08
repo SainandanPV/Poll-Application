@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Create Poll</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background-color: #b22222; /* Dark Red */
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+      .container {
+        max-width: 600px;
+        margin: 20px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        font-size: 2em;
+        margin: 0 0 20px;
+      }
+      label {
+        display: block;
+        margin: 10px 0 5px;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+      }
+      .btn {
+        display: inline-block;
+        background-color: #e63946; /* Bright Red */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 1.2em;
+        transition: background-color 0.3s;
+        margin-top: 10px;
+      }
+      .btn:hover {
+        background-color: #d62839; /* Slightly Darker Red */
+      }
+      .option-box {
+        margin-bottom: 15px;
+      }
+    </style>
+    <script>
+      function generateOptionFields() {
+        const numOptions = document.getElementById("numOptions").value;
+        const optionsContainer = document.getElementById("optionsContainer");
+        optionsContainer.innerHTML = ""; // Clear previous options
+
+        for (let i = 0; i < numOptions; i++) {
+          const optionDiv = document.createElement("div");
+          optionDiv.className = "option-box";
+          optionDiv.innerHTML = `<label for="option${i + 1}">Option ${
+            i + 1
+          }</label>
+                                      <input type="text" id="option${
+                                        i + 1
+                                      }" name="options" required>`;
+          optionsContainer.appendChild(optionDiv);
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>Create a Poll</h1>
+    </header>
+
+    <div class="container">
+      <h2>Enter Poll Details</h2>
+      <form method="POST" action="{% url 'polls:create' %}">
+        {% csrf_token %}
+        <label for="pollQuestion">Poll Question</label>
+        <input type="text" id="pollQuestion" name="question" required />
+
+        <label for="numOptions">Choose Number of Options</label>
+        <input
+          type="number"
+          id="numOptions"
+          name="numOptions"
+          min="1"
+          max="10"
+          required
+          oninput="generateOptionFields()"
+        />
+
+        <div id="optionsContainer"></div>
+
+        <button type="submit" class="btn">Create Poll</button>
+      </form>
+    </div>
+  </body>
+</html>

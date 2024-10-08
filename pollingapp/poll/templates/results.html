@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Poll Results</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f9f9f9;
+        margin: 0;
+        padding: 0;
+      }
+      header {
+        background-color: #b22222; /* Dark Red */
+        color: white;
+        padding: 20px;
+        text-align: center;
+      }
+      .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        font-size: 2em;
+        margin-top: 0;
+      }
+      .option {
+        margin: 15px 0;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+      .percentage {
+        font-weight: bold;
+        color: #e63946; /* Bright Red */
+      }
+      footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 0.9em;
+        color: #666;
+      }
+      .btn {
+        display: inline-block;
+        background-color: #e63946; /* Bright Red */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 1.2em;
+        transition: background-color 0.3s;
+        margin-top: 20px;
+      }
+      .btn:hover {
+        background-color: #d62839; /* Slightly Darker Red */
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Poll Results</h1>
+    </header>
+
+    <div class="container">
+      <h2>{{ poll.question }}</h2>
+
+      {% for option in poll.options.all %}
+      <div class="option">
+        <strong>{{ option.text }}</strong>
+        <div class="percentage">
+          {{ option.votes }} votes ({{ option.percentage }}%)
+        </div>
+      </div>
+      {% empty %}
+      <p>No options available for this poll.</p>
+      {% endfor %}
+
+      <a href="{% url 'polls:home' %}" class="btn">Back to Polls</a>
+    </div>
+
+    <footer>
+      <p>&copy; 2024 Poll Application. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
